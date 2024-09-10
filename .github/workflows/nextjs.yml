@@ -10,8 +10,10 @@ on:
   workflow_dispatch:
   
 
+
+
 jobs:
-  
+    
   # Build job
   Build:
     runs-on: ubuntu-latest
@@ -39,6 +41,9 @@ jobs:
   Push_To_DockerHub:
     needs: Build
     runs-on: ubuntu-latest
+    
+    env:
+      DOCKER_IMAGE_NAME : "nextjsapp"
 
     steps:
       - name: Checkout
@@ -62,11 +67,11 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/app-next:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
         
 
-  push_to_vercel:
-    needs: Push_To_DockerHub
+  Push_to_vercel:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -77,3 +82,12 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           vercel-args: "--prod"
+
+
+  Push_To_ACR:
+    needs: Push_To_DockerHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Push to ACR
+        run : echo "==================================================="
+  
