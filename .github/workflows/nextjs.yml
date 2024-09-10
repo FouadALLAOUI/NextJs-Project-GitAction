@@ -11,6 +11,7 @@ on:
   
 
 jobs:
+  
   # Build job
   Build:
     runs-on: ubuntu-latest
@@ -34,22 +35,7 @@ jobs:
       - name: Build Project
         run: npm run build     
       
-  Deploy_To_GitHub_Page:
-    needs: Build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITACTION_CI_CD_PIPELINE }}
-          publish_dir: ./dist
-
+        
   Push_To_DockerHub:
     needs: Build
     runs-on: ubuntu-latest
@@ -78,6 +64,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/app-next:latest
         
+          
   push_to_vercel:
     needs: Push_To_DockerHub
     runs-on: ubuntu-latest
