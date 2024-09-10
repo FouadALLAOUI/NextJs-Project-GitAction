@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
+  #workflow_dispatch:
   
 
 jobs:
@@ -32,19 +32,8 @@ jobs:
         run: npm ci
 
       - name: Build Project
-        run: npm run build
-
-      #- name: Run the tests and generate coverage report
-      #  run: npm test -- --coverage
-      #- name: Upload coverage to Codecov
-      #  uses: codecov/codecov-action@v1
-      #- name: Upload coverage to Codecov
-      #  uses: codecov/codecov-action@v1
-      #  with:
-      #    token: ${{ secrets.CODECOV_TOKEN }}
+        run: npm run build     
       
-      
-
   Deploy_To_GitHub_Page:
     needs: Build
     runs-on: ubuntu-latest
