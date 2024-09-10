@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  #workflow_dispatch:
+  workflow_dispatch:
   
 
 jobs:
@@ -64,7 +64,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/app-next:latest
         
-          
+
   push_to_vercel:
     needs: Push_To_DockerHub
     runs-on: ubuntu-latest
