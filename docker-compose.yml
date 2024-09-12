@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   next:
+    container_name: nextjsapp
     build:
       context: .
     ports:
