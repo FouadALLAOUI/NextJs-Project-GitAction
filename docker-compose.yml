@@ -10,3 +10,5 @@ services:
     volumes:
       - './public:/app/public'
       - './src:/app/src'
+
+#docker-compose up -d
