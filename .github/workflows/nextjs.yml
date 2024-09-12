@@ -8,7 +8,9 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
+env:
+  APP_NAME : 'saasnextjs_app'
 
 jobs:
     
@@ -72,11 +74,68 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
-
   Push_To_ACR:
     needs: Push_To_DockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Start Push to ACR
         run : echo "==================================================="
-  
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+
+
+
+#  Deploy_To_ACR:
+#    name: 'Build and Push to ACR'
+#    runs-on: ubuntu-latest
+#        
+#    defaults:
+#      run:
+#        shell: bash
+#        
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#         fetch-depth: 0
+#        
+#      - name: Docker Login
+#        uses: azure/docker-login@v1
+#        with:
+#          login-server: ${{ secrets.ACR_URL }}
+#          username: ${{ secrets.ACR_USERNAME }}
+#          password: ${{ secrets.ACR_PASSWORD }}
+#        
+#      - run: |
+#          docker build -t nodejs-app .
+#          docker tag nodejs-app ${{ secrets.ACR_URL }}/nodejs-app:${{ github.sha }}
+#          docker push ${{ secrets.ACR_URL }}/nodejs-app:${{ github.sha }}
+
+#  Deploy_To_AKS:
+#    name: 'Build and Push to ACR'
+#    runs-on: ubuntu-latest
+#        
+#    defaults:
+#      run:
+#        shell: bash
+#        
+#    steps:
+#      - name: deploy manifist file content
+#        uses: Azure/k8s-deploy@v5
+#        with:
+#           resource-group: yourResourceGroup
+#           name: yourClusterName
+#           action: deploy
+#           strategy: basic
+#      
+#           private-cluster: true
+#           manifests: |
+#              manifests/azure-vote-backend-deployment.yaml
+#              manifests/azure-vote-backend-service.yaml
+#              manifests/azure-vote-frontend-deployment.yaml
+#              manifests/azure-vote-frontend-service.yaml
+#           images: |
+#              registry.azurecr.io/containername
