@@ -81,4 +81,9 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Build Next.js app
+        run: |
+          npm run build
+          mv .next/static .next/standalone/.next/static
+          # mv public .next/standalone/public
 ~~~
