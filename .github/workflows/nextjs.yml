@@ -10,8 +10,6 @@ on:
   workflow_dispatch:
   
 
-
-
 jobs:
     
   # Build job
@@ -69,7 +67,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
-          
+
   Push_To_ACR:
     needs: Push_To_DockerHub
     runs-on: ubuntu-latest
