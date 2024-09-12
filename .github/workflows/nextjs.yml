@@ -34,7 +34,12 @@ jobs:
 
       - name: Build Project
         run: npm run build     
-      
+
+      - name: Upload build artifact 
+        uses: actions/upload-artifact@v3
+        with:
+          name: nextjs-build
+          path: .
         
   Push_To_DockerHub:
     needs: Build
